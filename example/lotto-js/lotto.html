@@ -11,56 +11,70 @@
 		li.selected { background-color: #6550ac; }
 		input { display:block; width: 200px; height: 30px; margin: 0 auto; background-color: #6550ac; border: none; border-radius: 3px; color: #ffffff}
 	</style>
+	<script>
+	
+	var maxCount = 6;
+	var clickCount = 0;
+	var numArray = new Array();
+	
+	function num45Setting(){
+			for(var i=1; i<=45; i++){
+				document.write("<li id=\'btn" +i+"' class='false' onclick=javascript:numBtnClick(\'"+i+"\')>"+i+"</li>");
+			}	
+	}
+
+	function numBtnClick(btnNum){	 
+		 var obj = document.getElementById('btn'+btnNum);
+	
+		  if(obj.getAttribute('class') == 'true'){	     
+			 numRemove(btnNum , obj); 
+		  } else{  		 
+			 numSave(btnNum , obj);		 
+		  }	 
+	}
+	
+	function numSave(btnNum , obj){
+		if(clickCount >= maxCount) {
+				alert('6개의 숫자까지만 선택가능합니다!')
+				return;
+		}
+			 numArray.push(btnNum);
+		     obj.style.backgroundColor = "red";
+			 obj.setAttribute('class' , 'true');
+			 clickCount++;
+	}
+	
+	function numRemove(btnNum , obj){
+	         numArray.splice(numArray.indexOf(btnNum) , 1);
+		     obj.style.backgroundColor = "#eeeeee";
+	         obj.setAttribute('class' , 'false');
+			 clickCount--;
+			 
+	}
+	
+	function finish(){
+	   if(clickCount == maxCount){
+	        //numArray.sort(); //// ASCII 문자 순서로 정렬되어 숫자의 크기대로 나오지 않음
+		    numArray.sort(function(a, b) { // 오름차순
+				return a - b; //내림차순은 b-a;
+			});
+	       var msg = '로또 번호 저장 완료 : ';
+	       for(var i=0; i<numArray.length; i++){
+		     msg += numArray[i];
+			 if(i<numArray.length-1) msg += ' , ';
+		   }
+		   alert(msg);
+	   } else{
+	       alert('로또번호는 6개 선택해주세요!!');
+	   }
+	}
+	
+	</script>
+	
 </head>
 <body>
 	<h1>★로또 당첨 기원★</h1>
-	<ul>
-		<li>1</li>
-		<li>2</li>
-		<li>3</li>
-		<li>4</li>
-		<li>5</li>
-		<li>6</li>
-		<li>7</li>
-		<li>8</li>
-		<li>9</li>
-		<li>10</li>
-		<li>11</li>
-		<li>12</li>
-		<li>13</li>
-		<li>14</li>
-		<li>15</li>
-		<li>16</li>
-		<li>17</li>
-		<li>18</li>
-		<li>19</li>
-		<li>20</li>
-		<li>21</li>
-		<li>22</li>
-		<li>23</li>
-		<li>24</li>
-		<li>25</li>
-		<li>26</li>
-		<li>27</li>
-		<li>28</li>
-		<li>29</li>
-		<li>30</li>
-		<li>31</li>
-		<li>32</li>
-		<li>33</li>
-		<li>34</li>
-		<li>35</li>
-		<li>36</li>
-		<li>37</li>
-		<li>38</li>
-		<li>39</li>
-		<li>40</li>
-		<li>41</li>
-		<li>42</li>
-		<li>43</li>
-		<li>44</li>
-		<li>45</li>
-	</ul>
-	<input type="button" value="SAVE">
+	<ul><script>num45Setting();</script></ul>
+	<input type="button" id="button1" onclick="finish();" value="SAVE" />
 </body>
 </html>
